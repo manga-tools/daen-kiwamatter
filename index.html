@@ -52,7 +52,7 @@ body{background:var(--ink);color:var(--white);font-family:'Noto Sans JP',sans-se
 .t-sister-lbl{font-size:9px;letter-spacing:2px;color:var(--red);border:1px solid rgba(192,57,43,.5);border-radius:2px;padding:2px 6px}
 .t-sister-go{color:rgba(255,255,255,.35)}
 .r-btns{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
-.rbtn{padding:13px 28px;font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:13px;letter-spacing:2px;cursor:pointer;border:none;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);transition:all .15s}
+.rbtn{padding:13px 22px;font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:13px;letter-spacing:2px;cursor:pointer;border:none;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);transition:all .15s}
 .rbtn.p{background:var(--red);color:#fff}.rbtn.p:hover{background:var(--red2)}
 .rbtn.s{background:rgba(255,255,255,.08);color:rgba(255,255,255,.55)}.rbtn.s:hover{background:rgba(255,255,255,.14)}
 .rbtn.x{background:#000;color:#fff;border:1px solid rgba(255,255,255,.2)}.rbtn.x:hover{background:#111}
@@ -86,7 +86,7 @@ body{background:var(--ink);color:var(--white);font-family:'Noto Sans JP',sans-se
 /* 成績画面：スクショ1枚に収まるよう、縦の余白と文字を圧縮（v2.1） */
 #go-ov{position:fixed;inset:0;background:var(--ink);z-index:500;display:none;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch}
 #go-ov.show{display:flex}
-.result-wrap{max-width:440px;width:100%;padding:12px 16px 16px;text-align:center;margin:auto}
+.result-wrap{max-width:440px;width:100%;padding:12px 10px 16px;text-align:center;margin:auto}
 .r-game-title{font-size:9px;letter-spacing:4px;color:rgba(255,255,255,.55);margin-bottom:6px;font-weight:700}
 .r-rank-emoji{font-size:32px;line-height:1;margin-bottom:2px}
 .r-rank-name{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:4px;color:var(--gold);margin-bottom:2px}
@@ -146,7 +146,7 @@ canvas{background:var(--paper);border-radius:6px;touch-action:none;display:block
   <div class="title-glow"></div>
   <div class="title-inner">
     <div class="t-main">マンガ<br>楕円<br>極マッター</div>
-    <div class="t-ver">MEK Ver 1.0.1</div>
+    <div class="t-ver">MEK Ver 1.0.4</div>
     <div class="t-desc">
       対角線を残して楕円が消えていく。<br>
       覚えた形をなぞって、5問ごとの関門を突破しよう。
@@ -194,7 +194,7 @@ canvas{background:var(--paper);border-radius:6px;touch-action:none;display:block
     <div class="result-wrap" id="result-wrap">
       <div class="r-game-title">楕円 極マッター</div>
       <div class="r-rank-emoji" id="r-rank-emoji">🫧</div>
-      <div class="r-rank-name" id="r-rank-name">あわつぶ級</div>
+      <div class="r-rank-name" id="r-rank-name">あぶく級</div>
       <div class="r-score" id="r-score">0</div>
       <div class="r-score-lbl">TOTAL SCORE</div>
       <div class="r-stats" id="r-stats"></div>
@@ -226,6 +226,9 @@ canvas{background:var(--paper);border-radius:6px;touch-action:none;display:block
 // マンガ 楕円 極マッター v0.9.2
 //   v0.9.1 厚み判定を実比率ベースへ／結果は描いた線そのものを表示
 //   v0.9.2 獲得ptを半減（級の到達感を実プレイに合わせる）
+//   v1.0.4 最下位の級名を「あわつぶ級」→「あぶく級」に変更。
+//   v1.0.3 通常回の間をさらに詰めて800msへ（関門回は判定を読ませるため据え置き）。
+//   v1.0.2 次の楕円までの間を1700→1200msへ。結果画面のボタンを横1列に。
 //   v1.0.1 OGP（og:*／twitter:card）を追加。★公開URLはリポジトリ名に合わせて確認。
 //   v0.9.9 GA4の測定IDを新プロパティ（楕円極マッター G-SQS1E4W2B2）に設定。
 //   v0.9.7 「もう一度」の前に告知画面を挟む／結果画像保存を追加（本体と同仕様）。
@@ -817,7 +820,7 @@ function showFeedback(score,mem,earned,line,passed,base,mult,d,cyAvg){
   const ov=document.getElementById('fb-ov');
   ov.classList.add('show');
   placeFeedback(ov);
-  clearTimeout(showFeedback._t);showFeedback._t=setTimeout(()=>ov.classList.remove('show'),isGate?1900:1400);
+  clearTimeout(showFeedback._t);showFeedback._t=setTimeout(()=>ov.classList.remove('show'),isGate?1700:800);
 }
 
 // ========== 入力（デバイス非依存対応：本体から移植）==========
@@ -933,7 +936,7 @@ function finishShape(){
   showFeedback(prec,mem,earned,line,passed,base,mult,dg,cyAvg);
   renderGateBar();
   if(isGate&&!passed){ setTimeout(showGameOver,1600); return; }
-  setTimeout(()=>{ if(isGate)cycleScores=[]; level++; loadShape(); },isGate?2200:1700);
+  setTimeout(()=>{ if(isGate)cycleScores=[]; level++; loadShape(); },isGate?1800:800);
 }
 // サイクル進捗バー（●が済んだ問題・最後が★ゲート）
 function renderGateBar(){
@@ -965,7 +968,7 @@ function updateCombo(){
 
 // ========== 級（円のスケールが上がっていく）==========
 const RANKS=[
-  { min:     0, emoji:'🫧', name:'あわつぶ級'      },
+  { min:     0, emoji:'🫧', name:'あぶく級'        },
   { min:   500, emoji:'🌾', name:'こめつぶ級'      },
   { min:  1000, emoji:'🫘', name:'まめ級'          },
   { min:  2000, emoji:'🍡', name:'だんご級'        },
@@ -1028,6 +1031,8 @@ function drawMini(cv,rec){
 // ========== ゲームオーバー ==========
 function showGameOver(){
   gameOver=true;
+  clearTimeout(showFeedback._t);
+  document.getElementById('fb-ov').classList.remove('show');   // 講評が裏に残らないよう先に閉じる
   if(typeof gtag==='function')
     gtag('event','game_over',{event_category:'game',score:totalScore,
       gates:gateNo(level)-1,level:level,rank:getRank(totalScore).name});
