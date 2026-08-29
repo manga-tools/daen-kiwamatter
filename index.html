@@ -146,7 +146,7 @@ canvas{background:var(--paper);border-radius:6px;touch-action:none;display:block
   <div class="title-glow"></div>
   <div class="title-inner">
     <div class="t-main">マンガ<br>楕円<br>極マッター</div>
-    <div class="t-ver">MEK Ver 1.0.5</div>
+    <div class="t-ver">MEK Ver 1.0.6</div>
     <div class="t-desc">
       対角線を残して楕円が消えていく。<br>
       覚えた形をなぞって、5問ごとの関門を突破しよう。
@@ -226,6 +226,9 @@ canvas{background:var(--paper);border-radius:6px;touch-action:none;display:block
 // マンガ 楕円 極マッター v0.9.2
 //   v0.9.1 厚み判定を実比率ベースへ／結果は描いた線そのものを表示
 //   v0.9.2 獲得ptを半減（級の到達感を実プレイに合わせる）
+//   v1.0.6 告知画像を ad*.jpg → item*.jpg にリネーム。
+//          280blocker等のコンテンツブロッカーが "ad" を含むパスを遮断するため。
+//          GA4のイベントラベル(ad1〜ad4)は過去データとの連続性のため据え置き。
 //   v1.0.5 関門回の間も800msへ統一（失敗時の成績画面は1000ms）。
 //   v1.0.4 最下位の級名を「あわつぶ級」→「あぶく級」に変更。
 //   v1.0.3 通常回の間をさらに詰めて800msへ（関門回は判定を読ませるため据え置き）。
@@ -1070,10 +1073,10 @@ function showGameOver(){
 
 // ========== 告知（ランダム出し分け・本体と同じ4点）==========
 const AD_LIST = [
-  { id:'ad1', img:'./ad1.jpg', url:'https://link.amazon/B0iEeUrmy', alt:'MEKO Apple Pencil 交換用ペン先 透明タイプ' },
-  { id:'ad2', img:'./ad2.jpg', url:'https://link.amazon/B03fpAANp', alt:'エレコム iPad Air 13インチ ケント紙タイプ 保護フィルム' },
-  { id:'ad3', img:'./ad3.jpg', url:'https://link.amazon/B09pXB3qk', alt:'KINGONE 2in1 スタイラスペン' },
-  { id:'ad4', img:'./ad4.jpg', url:'https://link.amazon/B0bMoLEWA', alt:'Samsung Galaxy Tab S10 FE' },
+  { id:'ad1', img:'./item1.jpg', url:'https://link.amazon/B0iEeUrmy', alt:'MEKO Apple Pencil 交換用ペン先 透明タイプ' },
+  { id:'ad2', img:'./item2.jpg', url:'https://link.amazon/B03fpAANp', alt:'エレコム iPad Air 13インチ ケント紙タイプ 保護フィルム' },
+  { id:'ad3', img:'./item3.jpg', url:'https://link.amazon/B09pXB3qk', alt:'KINGONE 2in1 スタイラスペン' },
+  { id:'ad4', img:'./item4.jpg', url:'https://link.amazon/B0bMoLEWA', alt:'Samsung Galaxy Tab S10 FE' },
 ];
 let currentAd = null;
 function showAd(){
